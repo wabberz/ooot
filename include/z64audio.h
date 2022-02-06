@@ -123,11 +123,19 @@ typedef struct {
 } AdpcmBook; // size >= 0x8
 
 typedef struct {
-    /* 0x00 */ u32 codec : 4;
-    /* 0x00 */ u32 medium : 2;
-    /* 0x00 */ u32 unk_bit26 : 1;
-    /* 0x00 */ u32 unk_bit25 : 1;
-    /* 0x01 */ u32 size : 24;
+#ifdef LITTLE_ENDIAN
+    u32 size : 24;
+    u32 unk_bit25 : 1;
+    u32 unk_bit26 : 1;
+    u32 medium : 2;
+    u32 codec : 4;    
+#else
+    u32 codec : 4;
+    u32 medium : 2;
+    u32 unk_bit26 : 1;
+    u32 unk_bit25 : 1;
+    u32 size : 24;
+#endif
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
     /* 0x0C */ AdpcmBook* book;
@@ -137,6 +145,15 @@ typedef struct {
     /* 0x00 */ SoundFontSample* sample;
     /* 0x04 */ f32 tuning; // frequency scale factor
 } SoundFontSound; // size = 0x8
+
+typedef enum
+{
+    CACHE_LOAD_PERMANENT = 0,
+    CACHE_LOAD_PERSISTENT,
+    CACHE_LOAD_TEMPORARY,
+    CACHE_LOAD_EITHER,
+    CACHE_LOAD_EITHER_NOSYNC
+} AudioCacheLoadType;
 
 typedef struct {
     /* 0x00 */ s16 numSamplesAfterDownsampling; // never read
@@ -671,12 +688,22 @@ typedef struct {
 typedef struct {
     union{
         u32 opArgs;
+#ifdef LITTLE_ENDIAN
+        struct
+        {
+            u8 arg2;
+            u8 arg1;
+            u8 arg0;
+            u8 op;
+        };
+#else
         struct {
             u8 op;
             u8 arg0;
             u8 arg1;
             u8 arg2;
         };
+#endif
     };
     union {
         void* data;
@@ -723,7 +750,7 @@ typedef struct {
     /* 0x4C */ OSIoMesg ioMesg;
 } AudioSlowLoad; // size = 0x64
 
-typedef struct {
+typedef struct AudioTableEntry {
     /* 0x00 */ uintptr_t romAddr;
     /* 0x04 */ u32 size;
     /* 0x08 */ s8 medium;
@@ -733,13 +760,22 @@ typedef struct {
     /* 0x0E */ s16 shortData3;
 } AudioTableEntry; // size = 0x10
 
-typedef struct {
+typedef struct AudioTable {
     /* 0x00 */ s16 numEntries;
     /* 0x02 */ s16 unkMediumParam;
     /* 0x04 */ uintptr_t romAddr;
     /* 0x08 */ char pad[0x8];
     /* 0x10 */ AudioTableEntry entries[1]; // (dynamic size)
 } AudioTable; // size >= 0x20
+
+typedef struct AudioTableDef
+{
+    /* 0x00 */ s16 numEntries;
+    /* 0x02 */ s16 unkMediumParam;
+    /* 0x04 */ uintptr_t romAddr;
+    /* 0x08 */ char pad[0x8];
+    /* 0x10 */ AudioTableEntry entries[]; // (dynamic size)
+} AudioTableDef; // size >= 0x20
 
 typedef struct {
     /* 0x00 */ OSTask task;
@@ -1335,10 +1371,10 @@ extern u8 D_80133418;
 
 extern const AudioContextInitSizes D_8014A6C4;
 extern s16 gOcarinaSongItemMap[];
-extern u8 gSoundFontTable[];
-extern u8 gSequenceFontTable[];
-extern u8 gSequenceTable[];
-extern u8 gSampleBankTable[];
+extern AudioTableDef gSoundFontTable;
+extern u16 gSequenceFontTable[];
+extern AudioTableDef gSequenceTable;
+extern AudioTableDef gSampleBankTable;
 extern u8 gAudioHeap[0x38000];
 
 extern ActiveSound gActiveSounds[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
