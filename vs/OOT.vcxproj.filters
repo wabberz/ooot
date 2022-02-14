@@ -1680,9 +1680,6 @@
     <ClCompile Include="..\src\libultra\gu\us2dex.cpp">
       <Filter>Source Files\libultra\gu</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\libultra\os\afterprenmi.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\libultra\os\createmesgqueue.cpp">
       <Filter>Source Files\libultra\os</Filter>
     </ClCompile>
@@ -1757,9 +1754,6 @@
     </ClCompile>
     <ClCompile Include="..\src\dmadata\dmadata.cpp">
       <Filter>Source Files\dmadata</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\code\__osMalloc.cpp">
-      <Filter>Source Files\code</Filter>
     </ClCompile>
     <ClCompile Include="..\src\code\audio_data.cpp">
       <Filter>Source Files\code</Filter>
@@ -5169,9 +5163,6 @@
     <ClCompile Include="..\src\port\rsp_boot.cpp">
       <Filter>Source Files\port</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\port\code_800F9280.cpp">
-      <Filter>Source Files\port</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\code\sys_cfb.cpp">
       <Filter>Source Files\buffers</Filter>
     </ClCompile>
@@ -5225,6 +5216,9 @@
     </ClCompile>
     <ClCompile Include="..\src\port\window\window.cpp">
       <Filter>Source Files\port\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\code\framerate.cpp">
+      <Filter>Source Files\code</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

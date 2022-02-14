@@ -76,7 +76,7 @@
     <ClCompile>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ObjectFileName>$(IntDir)vs\%(RelativeDir)\</ObjectFileName>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -1204,6 +1204,7 @@
     <ClCompile Include="..\src\code\fault.cpp" />
     <ClCompile Include="..\src\code\fault_drawer.cpp" />
     <ClCompile Include="..\src\code\flg_set.cpp" />
+    <ClCompile Include="..\src\code\framerate.cpp" />
     <ClCompile Include="..\src\code\game.cpp" />
     <ClCompile Include="..\src\code\gamealloc.cpp" />
     <ClCompile Include="..\src\code\gfxprint.cpp" />
@@ -1922,7 +1923,6 @@
     <ClCompile Include="..\src\overlays\misc\ovl_kaleido_scope\z_lmap_mark_data.cpp" />
     <ClCompile Include="..\src\overlays\misc\ovl_map_mark_data\z_map_mark_data.cpp" />
     <ClCompile Include="..\src\port\audio\audio_sdl.cpp" />
-    <ClCompile Include="..\src\port\code_800F9280.cpp" />
     <ClCompile Include="..\src\port\configfile.cpp" />
     <ClCompile Include="..\src\port\controller\controller.cpp" />
     <ClCompile Include="..\src\port\controller\controllers.cpp" />

@@ -212,7 +212,7 @@ static s16 sTimer = 0;
 
 void EnViewer_UpdateImpl(EnViewer* pthis, GlobalContext* globalCtx) {
     u8 type = pthis->actor.params >> 8;
-    u16 csFrames;
+    FrameU16 csFrames;
     s32 animationEnded;
 
     if (type == ENVIEWER_TYPE_2_ZELDA) {
@@ -231,7 +231,9 @@ void EnViewer_UpdateImpl(EnViewer* pthis, GlobalContext* globalCtx) {
         pthis->actor.uncullZoneDownward = 10000.0f;
     } else if (type == ENVIEWER_TYPE_3_GANONDORF) {
         if (gSaveContext.sceneSetupIndex == 4) {
-            switch (globalCtx->csCtx.frames) {
+
+            switch(globalCtx->csCtx.frames)
+            {
                 case 20:
                 case 59:
                 case 71:
@@ -540,7 +542,7 @@ void EnViewer_GanondorfPostLimbDrawUpdateCapeVec(GlobalContext* globalCtx, s32 l
 }
 
 void EnViewer_DrawGanondorf(EnViewer* pthis, GlobalContext* globalCtx) {
-    s16 frames = 0;
+    FrameU16 frames = 0;
     s16 type;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1405);
@@ -754,8 +756,7 @@ void EnViewer_UpdatePosition(EnViewer* pthis, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[0]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[0]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[0]->endPos.z;
-            lerpFactor = Environment_LerpWeight(globalCtx->csCtx.npcActions[0]->endFrame,
-                                                globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
+	    lerpFactor		     = Environment_LerpWeight(globalCtx->csCtx.npcActions[0]->endFrame, globalCtx->csCtx.npcActions[0]->startFrame, globalCtx->csCtx.frames);
             pthis->actor.world.pos.x = (endPos.x - startPos.x) * lerpFactor + startPos.x;
             pthis->actor.world.pos.y = (endPos.y - startPos.y) * lerpFactor + startPos.y;
             pthis->actor.world.pos.z = (endPos.z - startPos.z) * lerpFactor + startPos.z;
@@ -769,8 +770,7 @@ void EnViewer_UpdatePosition(EnViewer* pthis, GlobalContext* globalCtx) {
             endPos.x = globalCtx->csCtx.npcActions[1]->endPos.x;
             endPos.y = globalCtx->csCtx.npcActions[1]->endPos.y;
             endPos.z = globalCtx->csCtx.npcActions[1]->endPos.z;
-            lerpFactor = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame,
-                                                globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
+	    lerpFactor		     = Environment_LerpWeight(globalCtx->csCtx.npcActions[1]->endFrame, globalCtx->csCtx.npcActions[1]->startFrame, globalCtx->csCtx.frames);
             pthis->actor.world.pos.x = (endPos.x - startPos.x) * lerpFactor + startPos.x;
             pthis->actor.world.pos.y = (endPos.y - startPos.y) * lerpFactor + startPos.y;
             pthis->actor.world.pos.z = (endPos.z - startPos.z) * lerpFactor + startPos.z;
@@ -866,7 +866,7 @@ void EnViewer_DrawFireEffects(EnViewer* pthis2, GlobalContext* globalCtx) {
         Matrix_Scale(pthis->fireEffects[i].scale, pthis->fireEffects[i].scale, pthis->fireEffects[i].scale, MTXMODE_APPLY);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
-                                    (10 * i - 20 * globalCtx->state.frames) % 512, 32, 128));
+                                    (globalCtx->state.frames * (10 * i - 20)) % 512, 32, 128));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 170, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 00, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2027),
